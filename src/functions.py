@@ -5,17 +5,40 @@ with open("/home/aliaksandr_sigai/course_work_3/operations.json", "r") as file:
     data = json.load(file)
 
 operation_counts = int(input("Введите количество операций: "))
+
 def get_sorted_dates(data):
     """Сортируем по дате и возвращаем только необходимое количество элементов"""
     formatted_dates = []
     result = []
     for operation in data:
-        if "date" in operation and operation.get("state") == "EXECUTED":
+        if "date" in operation:# and operation.get("state") == "EXECUTED":
             formatted_dates.append(operation)
+        #elif "date" in operation and operation.get("state") == "CANCELED":
     sorted_dates = sorted(formatted_dates, key=lambda x: datetime.strptime(x["date"], "%Y-%m-%dT%H:%M:%S.%f"), reverse=True)
-    for item in sorted_dates[:operation_counts]:
+    for item in sorted_dates:
         result.append(item)
     return result
+
+def get_status():
+    """Получение статуса операции"""
+    status = get_sorted_dates(data)
+    result_status = []
+    for x in status:
+        if x["state"] == "EXECUTED":
+            result_status.append("выполнена")
+        else :
+            result_status.append("отменена")
+    return result_status[:operation_counts]
+
+
+def get_id():
+    """id платежа"""
+    status = get_sorted_dates(data)
+    result_status = []
+    for x in status:
+        if "id" in x:
+            result_status.append(x["id"])
+    return result_status[:operation_counts]
 
 def get_date():
     """Из необходимого количества элементов возвращаем только значение по ключу 'date'"""
@@ -24,10 +47,8 @@ def get_date():
     for x in date_time:
         if "date" in x:
             date_list.append(x["date"])
-        else:
-            date_list.append(x["Дата не найдена"])
 
-    return date_list
+    return date_list[:operation_counts]
 
 def formatted_date():
     """Форматируем даты в нужном порядке"""
@@ -55,10 +76,10 @@ def from_card_number():
         else:
             result_list["Нет данных об отправителе"] = "---"
             result.append(result_list)
-    return result
+    return result[:operation_counts]
 
 def to_card_number():
-    """Получение номера отправителя"""
+    """Выводим номер получателя"""
     info = get_sorted_dates(data)
     result = []
     for x in info:
@@ -73,7 +94,7 @@ def to_card_number():
         else:
             result_list["Нет данных о получателе"] = "---"
             result.append(result_list)
-    return result
+    return result[:operation_counts]
 
 def description():
     """Возвращение назначение платежа"""
@@ -84,7 +105,7 @@ def description():
             result.append(x["description"])
         else:
             result.append("Назначение не найдено")
-    return result
+    return result[:operation_counts]
 
 def amount():
     """Возвращение суммы платежа"""
@@ -95,7 +116,7 @@ def amount():
             result.append(x["operationAmount"]["amount"])
         else:
             result.append("Сумма не найдена")
-    return result
+    return result[:operation_counts]
 
 def currency():
     """Возвращение валюты платежа"""
@@ -106,8 +127,8 @@ def currency():
             result.append(x["operationAmount"]["currency"]["name"])
         else:
             result.append("Валюта не найдена")
-    return result
-
+    return result[:operation_counts]
+print(currency())
 def main():
     """Основной код программы"""
     i = 0
@@ -140,7 +161,8 @@ def main():
                 card_type_to = card_type_to[0:10] + " " + card_type_to[10:]
 
         print()
-        print(f"{formatted_date_str} {description()[i]}"
+        print(f"{get_id()[i]}\n"
+              f"{formatted_date_str} {description()[i]} -> {get_status()[i]}"
                 f"\n{card_type} {card_number} -> {card_type_to}{card_number_to}"
                 f"\n{amount()[i]} {currency()[i]}")
         i += 1
