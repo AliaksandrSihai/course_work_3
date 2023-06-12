@@ -1,12 +1,10 @@
 import json
 from datetime import datetime
 
-operation_counts = int(input("Введите количество операций: "))
-
 with open("/home/aliaksandr_sigai/course_work_3/operations.json", "r") as file:
     data = json.load(file)
 
-
+operation_counts = int(input("Введите количество операций: "))
 def get_sorted_dates(data):
     """Сортируем по дате и возвращаем только необходимое количество элементов"""
     formatted_dates = []
@@ -18,7 +16,6 @@ def get_sorted_dates(data):
     for item in sorted_dates[:operation_counts]:
         result.append(item)
     return result
-
 
 def get_date():
     """Из необходимого количества элементов возвращаем только значение по ключу 'date'"""
@@ -112,6 +109,7 @@ def currency():
     return result
 
 def main():
+    """Основной код программы"""
     i = 0
     while i < operation_counts:
         formatted_date_str = str(formatted_date()[i]).replace("-", ".")
