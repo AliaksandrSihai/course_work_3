@@ -1,0 +1,1 @@
+operation_counts = int(input("Введите количество операций: "))
