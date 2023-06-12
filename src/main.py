@@ -1,1 +1,4 @@
-operation_counts = int(input("Введите количество операций: "))
+from course_work_3.src.functions import main
+
+if __name__ == "__main__" :
+    print(main())

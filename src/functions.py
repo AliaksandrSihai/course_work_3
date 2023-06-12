@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from course_work_3.src.main import operation_counts
+operation_counts = int(input("Введите количество операций: "))
 
 with open("/home/aliaksandr_sigai/course_work_3/operations.json", "r") as file:
     data = json.load(file)
@@ -146,7 +146,7 @@ def main():
                 f"\n{card_type} {card_number} -> {card_type_to}{card_number_to}"
                 f"\n{amount()[i]} {currency()[i]}")
         i += 1
-    return "Спасибо за работу,хорошего дня!"
+    return f"\nСпасибо за работу,хорошего дня!"
 
 
 
